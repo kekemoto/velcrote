@@ -12,18 +12,11 @@
 </template>
 
 <script>
-    const root = { template: '<div>root</div>'}
-    const overview = { template: '<div>overview</div>'}
-
     export default {
         name: 'app',
         data () {
             return {}
         },
-        routes: [
-            {path: '/', component: root},
-            {path: '/overview', component: overview}
-        ]
     }
 </script>
 
