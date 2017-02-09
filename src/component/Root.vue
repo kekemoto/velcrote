@@ -15,16 +15,19 @@
 </template>
 
 <script>
+    import {mapActions} from 'vuex'
+    import {ROOT} from '../common'
+
     export default {
         name: 'Root',
-        props: ['velcrote'],
         data(){
             return {
                 note: {},
             }
         },
         created(){
-            this.note = this.velcrote[0]
+            this.initialize()
+//            this.note = this.velcrote[ROOT]
         },
         methods: {
             onLink(id){
@@ -32,8 +35,10 @@
             },
 
             onCreate(){
-                //
+                console.log('create !')
             },
+
+            ...mapActions(['initialize'])
         },
     }
 </script>

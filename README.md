@@ -18,4 +18,4 @@ npm run build
 For detailed explanation on how things work, consult the [docs for vue-loader](http://vuejs.github.io/vue-loader).
 
 ## LICENSE
-[MPL](./LICENSE)
+[MPL-2.0](./LICENSE)

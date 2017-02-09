@@ -9,10 +9,12 @@ export default new VueRouter({
     routes: [
         {
             path: '/',
+            name: 'root',
             component: Root
         },
         {
             path: '/overview',
+            name: 'overview',
             component: Overview
         },
     ],
