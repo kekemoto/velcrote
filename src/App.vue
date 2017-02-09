@@ -1,12 +1,12 @@
 <template>
     <div>
-        <header>
-            <router-link to="/" class="title">Velcrote</router-link>
+        <header class="section">
+            <router-link to="/" class="link title">Velcrote</router-link>
             <router-link to="/" class="link">Detail</router-link>
             <router-link to="/overview" class="link">Overview</router-link>
         </header>
-        <section>
-            <router-view></router-view>
+        <section class="section">
+            <router-view :velcrote="velcrote"></router-view>
         </section>
     </div>
 </template>
@@ -15,18 +15,31 @@
     export default {
         name: 'app',
         data () {
-            return {}
+            return {
+                velcrote: {
+                    0: {
+                        title: 'はじめまして',
+                        detail: 'タップで編集、プラスで新規',
+                        links: [],
+                    }
+                }
+            }
         },
     }
 </script>
 
-<style scoped>
+<style>
     .title {
-        margin: 1em;
         font-size: 2em;
+        text-decoration: none;
+        color: black;
     }
 
     .link {
         padding: 0 0.5em;
+    }
+
+    .section{
+        margin: 1em;
     }
 </style>
