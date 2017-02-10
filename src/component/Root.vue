@@ -2,10 +2,15 @@
     <div>
         <nav class="section">
             <button @click="onSave"><i class="fa fa-floppy-o"></i> save</button>
-            <button @click="onLink(1)"><i class="fa fa-home"></i> home</button>
+            <button @click="onHome"><i class="fa fa-home"></i> home</button>
             <button @click="onDelete"><i class="fa fa-trash-o"></i> delete</button>
             <button @click="onDebug">debug</button>
         </nav>
+
+        <nav class="section history">
+            /<span v-for="(id, index) in history" @click="onHistory(index)"><a> {{ velcrote[id].title }} </a>/</span>
+        </nav>
+
         <section class="section">
             <input type="text" placeholder="title" v-model="note.title" class="editor">
             <textarea placeholder="detail" class="editor" v-model="note.detail"></textarea>
@@ -29,6 +34,7 @@
         data(){
             return {
                 note: {},
+                history: [],
             }
         },
         computed: mapState([
@@ -42,13 +48,20 @@
         methods: {
             onLink(id){
                 this.onSave()
+                this.history.push(this.note.id)
                 this.note = Object.assign({}, this.velcrote[id])
+            },
+
+            onHome(){
+                this.onSave()
+                this.note = Object.assign({}, this.velcrote[ROOT])
+                this.history = []
             },
 
             onCreate(){
                 this.onSave()
                 this[ACTION.createNote](this.note)
-                this.note = this.velcrote[this.noteIdMax]
+                this.onLink(this.noteIdMax)
             },
 
             onSave(){
@@ -64,10 +77,15 @@
                         confirmButtonText: 'Delete'
                     }).then(() => {
                         this[ACTION.deleteNote](this.note)
-                        this.onLink(ROOT)
+                        this.onHistory(this.history.length-1)
                     }).catch(() => {
                     })
                 }
+            },
+
+            onHistory(index) {
+                this.note = this.velcrote[this.history[index]]
+                this.history = this.history.splice(0, index)
             },
 
             onDebug(){
@@ -80,7 +98,8 @@
                 }).then(() => {
                     window.localStorage.clear()
                     location.reload()
-                }).catch(()=>{})
+                }).catch(() => {
+                })
             },
 
             ...mapActions([
@@ -96,5 +115,9 @@
 <style scoped>
     .editor {
         width: 100%;
+    }
+
+    .history{
+        font-size: 0.75em;
     }
 </style>
