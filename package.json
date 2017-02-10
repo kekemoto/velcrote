@@ -1,7 +1,7 @@
 {
   "name": "velcrote",
   "description": "You can paste or strip notes",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "author": "kekemoto kekemoto.hp@gmail.com",
   "private": true,
   "scripts": {

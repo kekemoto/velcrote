@@ -1,9 +1,9 @@
 <template>
     <div>
         <header class="section">
-            <router-link :to="{name:'root'}" class="link title">Velcrote</router-link>
+            <router-link :to="{name:'root'}" class="title">Velcrote</router-link>
             <router-link :to="{name:'root'}" class="link">Detail</router-link>
-            <router-link :to="{name:'overview'}" class="link">Overview</router-link>
+            <router-link :to="{name:'overview'}">Overview</router-link>
         </header>
         <section class="section">
             <router-view></router-view>
@@ -19,17 +19,18 @@
 
 <style>
     .title {
-        font-size: 4rem;
+        font-size: 3.5rem;
         font-weight: 300;
         text-decoration: none;
         color: black;
+        padding: 0 1.5rem;
     }
 
     .link {
-        padding: 0 0.5em;
+        padding: 0 1rem 0 0;
     }
 
     .section {
-        margin: 1em;
+        margin: 1.5rem;
     }
 </style>

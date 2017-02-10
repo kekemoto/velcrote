@@ -1,9 +1,9 @@
 <template>
     <div>
         <nav class="section">
-            <button @click="onSave">save</button>
-            <button @click="onLink(1)">home</button>
-            <button @click="onDelete">delete</button>
+            <button @click="onSave"><i class="fa fa-floppy-o"></i> save</button>
+            <button @click="onLink(1)"><i class="fa fa-home"></i> home</button>
+            <button @click="onDelete"><i class="fa fa-trash-o"></i> delete</button>
             <button @click="onDebug">debug</button>
         </nav>
         <section class="section">
@@ -11,7 +11,7 @@
             <textarea placeholder="detail" class="editor" v-model="note.detail"></textarea>
             <ul>
                 <li v-for="link in note.links" @click="onLink(link)">{{ velcrote[link].title }}</li>
-                <li @click="onCreate"> +</li>
+                <li @click="onCreate"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></li>
             </ul>
         </section>
     </div>
