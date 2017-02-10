@@ -84,7 +84,7 @@
             },
 
             onHistory(index) {
-                this.note = this.velcrote[this.history[index]]
+                this.onLink(this.history[index])
                 this.history = this.history.splice(0, index)
             },
 
