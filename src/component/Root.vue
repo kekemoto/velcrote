@@ -2,7 +2,7 @@
     <div>
         <nav class="section">
             <button @click="onSave">save</button>
-            <button @click="onLink(1)">root</button>
+            <button @click="onLink(1)">home</button>
             <button @click="onDelete">delete</button>
             <button @click="onDebug">debug</button>
         </nav>
@@ -10,7 +10,7 @@
             <input type="text" placeholder="title" v-model="note.title" class="editor">
             <textarea placeholder="detail" class="editor" v-model="note.detail"></textarea>
             <ul>
-                <li v-for="link in note.links" @click="onLink(note.links)">{{ velcrote[note.links].title }}</li>
+                <li v-for="link in note.links" @click="onLink(link)">{{ velcrote[link].title }}</li>
                 <li @click="onCreate"> +</li>
             </ul>
         </section>
@@ -42,7 +42,7 @@
         methods: {
             onLink(id){
                 this.onSave()
-                this.note = this.velcrote[id]
+                this.note = Object.assign({}, this.velcrote[id])
             },
 
             onCreate(){
