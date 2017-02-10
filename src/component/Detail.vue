@@ -7,14 +7,17 @@
         </nav>
 
         <nav class="section history">
-            /<span v-for="(id, index) in history" @click="onHistory(index)"><a :class="{empty:isEmpty(velcrote[id].title)}"> {{ titleChecker(velcrote[id].title) }} </a>/</span>
+            /<span v-for="(id, index) in history" @click="onHistory(index)"><a
+                :class="{empty:isEmpty(velcrote[id].title)}"> {{ titleChecker(velcrote[id].title) }} </a>/</span>
         </nav>
 
         <section class="section">
             <input type="text" placeholder="title" v-model="note.title" class="editor">
             <textarea placeholder="detail" class="editor editor-detail" v-model="note.detail"></textarea>
             <ul>
-                <li v-for="link in note.links" @click="onLink(link)" :class="{empty:isEmpty(velcrote[link].title)}">{{ titleChecker(velcrote[link].title, 'empty title') }}</li>
+                <li v-for="link in note.links" @click="onLink(link)" :class="{empty:isEmpty(velcrote[link].title)}">{{
+                    titleChecker(velcrote[link].title, 'empty title') }}
+                </li>
                 <li @click="onCreate"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></li>
             </ul>
         </section>
@@ -42,13 +45,24 @@
         ]),
         created() {
             this[ACTION.initialize]()
-            this.note = Object.assign(this.velcrote[ROOT])
+            this.note = Object.assign({}, this.velcrote[this.$route.params.id || ROOT])
+        },
+        watch: {
+            '$route'(){
+                if (this.$route.params.id) {
+                    this.note = Object.assign({}, this.velcrote[this.$route.params.id])
+                } else {
+                    this.history = []
+                    this.note = Object.assign({}, this.velcrote[ROOT])
+                }
+            }
         },
         methods: {
             onLink(id){
                 this.onSave()
                 this.history.push(this.note.id)
-                this.note = Object.assign({}, this.velcrote[id])
+//                this.note = Object.assign({}, this.velcrote[id])
+                this.$router.push({name: 'detail', params: {id: id}})
             },
 
             onCreate(){
@@ -70,7 +84,7 @@
                         confirmButtonText: 'Delete'
                     }).then(() => {
                         this[ACTION.deleteNote](this.note)
-                        this.onHistory(this.history.length-1)
+                        this.onHistory(this.history.length - 1)
                     }).catch(() => {
                     })
                 }
@@ -96,7 +110,7 @@
             },
 
             titleChecker(title, stead){
-                if(this.isEmpty(title)){
+                if (this.isEmpty(title)) {
                     return stead || 'empty'
                 }
                 return title
@@ -121,12 +135,12 @@
         width: 100%;
     }
 
-    .editor-detail{
+    .editor-detail {
         height: 6.5em;
         line-height: 1.5;
     }
 
-    .history{
+    .history {
         font-size: 0.75em;
     }
 

@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Root from './component/Root.vue'
+import Root from './component/Detail.vue'
 import Overview from './component/Overview.vue'
 
 Vue.use(VueRouter)
@@ -9,7 +9,12 @@ export default new VueRouter({
     routes: [
         {
             path: '/',
-            name: 'root',
+            name: 'detailDefault',
+            component: Root
+        },
+        {
+            path: '/:id',
+            name: 'detail',
             component: Root
         },
         {

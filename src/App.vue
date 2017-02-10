@@ -1,8 +1,8 @@
 <template>
     <div>
         <header class="section">
-            <router-link :to="{name:'root'}" class="title">Velcrote</router-link>
-            <router-link :to="{name:'root'}" class="link">Detail</router-link>
+            <router-link to="/" class="title">Velcrote</router-link>
+            <router-link :to="{name:'detailDefault'}" class="link">Detail</router-link>
             <router-link :to="{name:'overview'}">Overview</router-link>
         </header>
         <section class="section">
