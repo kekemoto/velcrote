@@ -1,22 +1,28 @@
 <template>
     <div>
         <nav class="section">
-            <button>save</button>
+            <button @click="onSave">save</button>
+            <button @click="onLink(1)">root</button>
+            <button @click="onDelete">delete</button>
+            <button @click="onDebug">debug</button>
         </nav>
         <section class="section">
-            <div>{{ note.title }}</div>
-            <div>{{ note.detail }}</div>
+            <input type="text" placeholder="title" v-model="note.title" class="editor">
+            <textarea placeholder="detail" class="editor">{{ note.detail }}</textarea>
             <ul>
-                <li v-for="link in note.links" @click="onLink(note.links)">{{ velcrote[note.links] }}</li>
-                <li @click="onCreate"> + </li>
+                <li v-for="link in note.links" @click="onLink(note.links)">{{ velcrote[note.links].title }}</li>
+                <li @click="onCreate"> +</li>
             </ul>
         </section>
     </div>
 </template>
 
 <script>
-    import {mapActions} from 'vuex'
-    import {ROOT} from '../common'
+    import {mapActions, mapState} from 'vuex'
+    import {
+        ROOT,
+        ACTION
+    } from '../common'
 
     export default {
         name: 'Root',
@@ -25,20 +31,52 @@
                 note: {},
             }
         },
-        created(){
-            this.initialize()
-//            this.note = this.velcrote[ROOT]
+        computed: mapState([
+            'velcrote',
+            'noteIdMax',
+        ]),
+        created() {
+            this[ACTION.initialize]()
+            this.note = Object.assign(this.velcrote[ROOT])
         },
         methods: {
             onLink(id){
+                this.onSave()
                 this.note = this.velcrote[id]
             },
 
             onCreate(){
-                console.log('create !')
+                this.onSave()
+                this[ACTION.createNote](this.note)
+                this.note = this.velcrote[this.noteIdMax]
             },
 
-            ...mapActions(['initialize'])
+            onSave(){
+                this[ACTION.updateNote](this.note)
+            },
+
+            onDelete(){
+                this[ACTION.deleteNote](this.note)
+                this.onLink(ROOT)
+            },
+
+            onDebug(){
+                window.localStorage.clear()
+                location.reload()
+            },
+
+            ...mapActions([
+                ACTION.initialize,
+                ACTION.updateNote,
+                ACTION.createNote,
+                ACTION.deleteNote,
+            ])
         },
     }
 </script>
+
+<style scoped>
+    .editor {
+        width: 100%;
+    }
+</style>
