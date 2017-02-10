@@ -2,20 +2,19 @@
     <div>
         <nav class="section">
             <button @click="onSave"><i class="fa fa-floppy-o"></i> save</button>
-            <button @click="onHome"><i class="fa fa-home"></i> home</button>
             <button @click="onDelete"><i class="fa fa-trash-o"></i> delete</button>
             <button @click="onDebug">debug</button>
         </nav>
 
         <nav class="section history">
-            /<span v-for="(id, index) in history" @click="onHistory(index)"><a> {{ velcrote[id].title }} </a>/</span>
+            /<span v-for="(id, index) in history" @click="onHistory(index)"><a :class="{empty:isEmpty(velcrote[id].title)}"> {{ titleChecker(velcrote[id].title) }} </a>/</span>
         </nav>
 
         <section class="section">
             <input type="text" placeholder="title" v-model="note.title" class="editor">
-            <textarea placeholder="detail" class="editor" v-model="note.detail"></textarea>
+            <textarea placeholder="detail" class="editor editor-detail" v-model="note.detail"></textarea>
             <ul>
-                <li v-for="link in note.links" @click="onLink(link)">{{ velcrote[link].title }}</li>
+                <li v-for="link in note.links" @click="onLink(link)" :class="{empty:isEmpty(velcrote[link].title)}">{{ titleChecker(velcrote[link].title, 'empty title') }}</li>
                 <li @click="onCreate"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></li>
             </ul>
         </section>
@@ -50,12 +49,6 @@
                 this.onSave()
                 this.history.push(this.note.id)
                 this.note = Object.assign({}, this.velcrote[id])
-            },
-
-            onHome(){
-                this.onSave()
-                this.note = Object.assign({}, this.velcrote[ROOT])
-                this.history = []
             },
 
             onCreate(){
@@ -102,6 +95,17 @@
                 })
             },
 
+            titleChecker(title, stead){
+                if(this.isEmpty(title)){
+                    return stead || 'empty'
+                }
+                return title
+            },
+
+            isEmpty(string){
+                return string == ''
+            },
+
             ...mapActions([
                 ACTION.initialize,
                 ACTION.updateNote,
@@ -117,7 +121,16 @@
         width: 100%;
     }
 
+    .editor-detail{
+        height: 6.5em;
+        line-height: 1.5;
+    }
+
     .history{
         font-size: 0.75em;
+    }
+
+    .empty {
+        color: gray;
     }
 </style>
