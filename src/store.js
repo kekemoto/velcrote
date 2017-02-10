@@ -50,7 +50,7 @@ export default new Vuex.Store({
                     [ROOT]: {
                         id: ROOT,
                         title: 'はじめまして',
-                        detail: 'タップで編集、プラスボタンで作成',
+                        detail: 'タップで編集、プラスボタンで作成。\n\nTap to edit, create with plus button.',
                         links: []
                     }
                 }

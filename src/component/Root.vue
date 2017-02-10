@@ -8,7 +8,7 @@
         </nav>
         <section class="section">
             <input type="text" placeholder="title" v-model="note.title" class="editor">
-            <textarea placeholder="detail" class="editor">{{ note.detail }}</textarea>
+            <textarea placeholder="detail" class="editor" v-model="note.detail"></textarea>
             <ul>
                 <li v-for="link in note.links" @click="onLink(note.links)">{{ velcrote[note.links].title }}</li>
                 <li @click="onCreate"> +</li>
@@ -56,13 +56,31 @@
             },
 
             onDelete(){
-                this[ACTION.deleteNote](this.note)
-                this.onLink(ROOT)
+                if (this.note.id != ROOT) {
+                    swal({
+                        title: 'Are you sure?',
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Delete'
+                    }).then(() => {
+                        this[ACTION.deleteNote](this.note)
+                        this.onLink(ROOT)
+                    }).catch(() => {
+                    })
+                }
             },
 
             onDebug(){
-                window.localStorage.clear()
-                location.reload()
+                swal({
+                    title: 'Initialize?',
+                    text: 'This button is for developer.',
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    window.localStorage.clear()
+                    location.reload()
+                }).catch(()=>{})
             },
 
             ...mapActions([

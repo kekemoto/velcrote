@@ -29,7 +29,7 @@
         padding: 0 0.5em;
     }
 
-    .section{
+    .section {
         margin: 1em;
     }
 </style>

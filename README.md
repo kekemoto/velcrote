@@ -1,6 +1,8 @@
-# velcrote
+# Velcrote
 
 > You can paste or strip notes
+
+See the [Velcrote](https://kekemoto.github.io/velcrote/)
 
 ## Build Setup
 

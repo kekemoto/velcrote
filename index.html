@@ -2,14 +2,23 @@
 <html lang="ja">
     <head>
         <meta charset="utf-8">
-        <title>velcrote</title>
+        <title>Velcrote</title>
         <meta name="viewport" content="width=device-width,initial-scale=1.0">
         <link href='//fonts.googleapis.com/css?family=Raleway:400,300,600' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/normalize/5.0.0/normalize.css">
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/skeleton/2.0.4/css/skeleton.css">
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/sweetalert2/6.3.8/sweetalert2.min.css">
+        <script src="https://cdn.jsdelivr.net/sweetalert2/6.3.8/sweetalert2.min.js"></script>
+
+        <style>
+            /* To prevent conflict between SweetAlert and Skeleton */
+            .swal2-styled {
+                height: auto;
+            }
+        </style>
     </head>
     <body>
         <div id="app"></div>
-        <script src="/dist/build.js"></script>
+        <script src="./dist/build.js"></script>
     </body>
 </html>
