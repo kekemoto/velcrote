@@ -7,7 +7,7 @@
         </nav>
 
         <nav class="section history">
-            /<span v-for="(id, index) in history" @click="onHistory(index)"><a
+            <router-link :to="{name:'detailDefault'}"><i class="fa fa-home"></i></router-link> /<span v-for="(id, index) in history" @click="onHistory(index)"><a
                 :class="{empty:isEmpty(velcrote[id].title)}"> {{ titleChecker(velcrote[id].title) }} </a>/</span>
         </nav>
 
@@ -25,6 +25,7 @@
 </template>
 
 <script>
+    import Helper from './Helper'
     import {mapActions, mapState} from 'vuex'
     import {
         ROOT,
@@ -33,35 +34,41 @@
 
     export default {
         name: 'Root',
+
         data(){
             return {
                 note: {},
                 history: [],
             }
         },
+
         computed: mapState([
             'velcrote',
             'noteIdMax',
         ]),
+
         created() {
             this[ACTION.initialize]()
-            this.note = Object.assign({}, this.velcrote[this.$route.params.id || ROOT])
+            this._initializeNote()
         },
+
         watch: {
             '$route'(){
-                if (this.$route.params.id) {
-                    this.note = Object.assign({}, this.velcrote[this.$route.params.id])
-                } else {
+                if (!this.$route.params.id) {
                     this.history = []
-                    this.note = Object.assign({}, this.velcrote[ROOT])
                 }
+                this._initializeNote()
             }
         },
+
         methods: {
+            _initializeNote(){
+                this.note = Object.assign({}, this.velcrote[this.$route.params.id || ROOT] || this.velcrote[ROOT])
+            },
+
             onLink(id){
                 this.onSave()
                 this.history.push(this.note.id)
-//                this.note = Object.assign({}, this.velcrote[id])
                 this.$router.push({name: 'detail', params: {id: id}})
             },
 
@@ -109,16 +116,9 @@
                 })
             },
 
-            titleChecker(title, stead){
-                if (this.isEmpty(title)) {
-                    return stead || 'empty'
-                }
-                return title
-            },
+            titleChecker: Helper.titleChecker,
 
-            isEmpty(string){
-                return string == ''
-            },
+            isEmpty: Helper.isEmpty,
 
             ...mapActions([
                 ACTION.initialize,

@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Root from './component/Detail.vue'
+import Detail from './component/Detail.vue'
 import Overview from './component/Overview.vue'
 
 Vue.use(VueRouter)
@@ -8,14 +8,15 @@ Vue.use(VueRouter)
 export default new VueRouter({
     routes: [
         {
-            path: '/',
+            path: '/detail',
             name: 'detailDefault',
-            component: Root
+            component: Detail,
+            alias: ['/']
         },
         {
-            path: '/:id',
+            path: '/detail/:id',
             name: 'detail',
-            component: Root
+            component: Detail,
         },
         {
             path: '/overview',

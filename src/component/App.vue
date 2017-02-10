@@ -1,7 +1,7 @@
 <template>
     <div>
         <header class="section">
-            <router-link to="/" class="title">Velcrote</router-link>
+            <router-link to="/" class="title-logo">Velcrote</router-link>
             <router-link :to="{name:'detailDefault'}" class="link">Detail</router-link>
             <router-link :to="{name:'overview'}">Overview</router-link>
         </header>
@@ -18,12 +18,16 @@
 </script>
 
 <style>
-    .title {
+    .title-logo {
         font-size: 3.5rem;
         font-weight: 300;
         text-decoration: none;
         color: black;
         padding: 0 1.5rem;
+    }
+
+    .title-logo:visited {
+        color: black;
     }
 
     .link {
