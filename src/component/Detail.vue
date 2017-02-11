@@ -3,16 +3,16 @@
         <nav class="section">
             <button @click="onSave"><i class="fa fa-floppy-o"></i> save</button>
             <button @click="onDelete"><i class="fa fa-trash-o"></i> delete</button>
-            <button @click="onDebug">debug</button>
         </nav>
 
         <nav class="section history">
-            <router-link :to="{name:'detailDefault'}"><i class="fa fa-home"></i></router-link> /<span v-for="(id, index) in history" @click="onHistory(index)"><a
+            <router-link :to="{name:'detailDefault'}"><i class="fa fa-home"></i></router-link>
+            /<span v-for="(id, index) in history" @click="onHistory(index)"><a
                 :class="{empty:isEmpty(velcrote[id].title)}"> {{ titleChecker(velcrote[id].title) }} </a>/</span>
         </nav>
 
         <section class="section">
-            <input type="text" placeholder="title" v-model="note.title" class="editor">
+            <input type="text" placeholder="title" v-model="note.title" class="editor" @keyup.delete.shift="onDebug">
             <textarea placeholder="detail" class="editor editor-detail" v-model="note.detail"></textarea>
             <ul>
                 <li v-for="link in note.links" @click="onLink(link)" :class="{empty:isEmpty(velcrote[link].title)}">{{
@@ -52,6 +52,11 @@
             this._initializeNote()
         },
 
+        beforeRouteLeave(to, from, next) {
+            this.onSave()
+            next()
+        },
+
         watch: {
             '$route'(){
                 if (!this.$route.params.id) {
@@ -67,13 +72,16 @@
             },
 
             onLink(id){
-                this.onSave()
                 this.history.push(this.note.id)
                 this.$router.push({name: 'detail', params: {id: id}})
             },
 
+            onHistory(index) {
+                this.onLink(this.history[index])
+                this.history = this.history.splice(0, index)
+            },
+
             onCreate(){
-                this.onSave()
                 this[ACTION.createNote](this.note)
                 this.onLink(this.noteIdMax)
             },
@@ -95,11 +103,6 @@
                     }).catch(() => {
                     })
                 }
-            },
-
-            onHistory(index) {
-                this.onLink(this.history[index])
-                this.history = this.history.splice(0, index)
             },
 
             onDebug(){
@@ -136,7 +139,7 @@
     }
 
     .editor-detail {
-        height: 6.5em;
+        height: 10em;
         line-height: 1.5;
     }
 
