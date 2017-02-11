@@ -12,7 +12,7 @@
         </nav>
 
         <section class="section">
-            <input type="text" placeholder="title" v-model="note.title" class="editor" @keyup.delete.shift="onDebug">
+            <input type="text" placeholder="title" v-model="note.title" class="editor" @keyup.enter.shift="onDebug">
             <textarea placeholder="detail" class="editor editor-detail" v-model="note.detail"></textarea>
             <ul>
                 <li v-for="link in note.links" @click="onLink(link)" :class="{empty:isEmpty(velcrote[link].title)}">{{
@@ -32,6 +32,8 @@
         ACTION
     } from '../common'
 
+    let closeEventFlag = true
+
     export default {
         name: 'Root',
 
@@ -50,6 +52,11 @@
         created() {
             this[ACTION.initialize]()
             this._initializeNote()
+            window.onbeforeunload = () => {
+                if(closeEventFlag) {
+                    this.onSave()
+                }
+            }
         },
 
         beforeRouteLeave(to, from, next) {
@@ -108,12 +115,13 @@
             onDebug(){
                 swal({
                     title: 'Initialize?',
-                    text: 'This button is for developer.',
+                    text: 'This button is for developer.\n\ncommand: shift + enter',
                     type: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'OK'
                 }).then(() => {
                     window.localStorage.clear()
+                    closeEventFlag = false
                     location.reload()
                 }).catch(() => {
                 })
