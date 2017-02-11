@@ -21,7 +21,7 @@ export default new VueRouter({
         },
         {
             // old url. Do not define name.
-            path: '/detail',
+            path: '/detail/:id',
             redirect: '/',
         }
     ],
