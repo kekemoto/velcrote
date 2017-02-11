@@ -1,9 +1,16 @@
+// Route name
+export const ROUTE = {
+    note: 'note',
+    overview: 'overview',
+}
+
 // LocalStorage key
 export const KEY = {
     velcrote: 'keyVelcrote',
     noteIdMax: 'keyNoteIdMax',
 }
 
+// Store action method
 export const ACTION = {
     initialize: 'actionInitialize',
     updateNote: 'actionUpdateNote',

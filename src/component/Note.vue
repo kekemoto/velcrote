@@ -1,18 +1,18 @@
 <template>
     <div>
         <nav class="section">
-            <button @click="onSave"><i class="fa fa-floppy-o"></i> save</button>
+            <button @click="onMenu"><i class="fa fa-bars"></i> menu</button>
             <button @click="onDelete"><i class="fa fa-trash-o"></i> delete</button>
         </nav>
 
         <nav class="section history">
-            <router-link :to="{name:'detailDefault'}"><i class="fa fa-home"></i></router-link>
+            <router-link :to="{name:ROUTE.note}"><i class="fa fa-home"></i></router-link>
             /<span v-for="(id, index) in history" @click="onHistory(index)"><a
                 :class="{empty:isEmpty(velcrote[id].title)}"> {{ titleChecker(velcrote[id].title) }} </a>/</span>
         </nav>
 
         <section class="section">
-            <input type="text" placeholder="title" v-model="note.title" class="editor" @keyup.enter.shift="onDebug">
+            <input type="text" placeholder="title" v-model="note.title" class="editor" @keyup.enter.ctrl="onDebug">
             <textarea placeholder="detail" class="editor editor-detail" v-model="note.detail"></textarea>
             <ul>
                 <li v-for="link in note.links" @click="onLink(link)" :class="{empty:isEmpty(velcrote[link].title)}">{{
@@ -29,7 +29,8 @@
     import {mapActions, mapState} from 'vuex'
     import {
         ROOT,
-        ACTION
+        ACTION,
+        ROUTE,
     } from '../common'
 
     let closeEventFlag = true
@@ -41,6 +42,9 @@
             return {
                 note: {},
                 history: [],
+
+                //const
+                ROUTE: ROUTE,
             }
         },
 
@@ -50,6 +54,7 @@
         ]),
 
         created() {
+            console.log('created')//debug
             this[ACTION.initialize]()
             this._initializeNote()
             window.onbeforeunload = () => {
@@ -60,12 +65,17 @@
         },
 
         beforeRouteLeave(to, from, next) {
+            console.log('beforeRouteLeave')//debug
             this.onSave()
             next()
         },
 
         watch: {
             '$route'(){
+                console.log('route change')//debug
+                if(this.note.id){
+                    this.onSave()
+                }
                 if (!this.$route.params.id) {
                     this.history = []
                 }
@@ -80,7 +90,7 @@
 
             onLink(id){
                 this.history.push(this.note.id)
-                this.$router.push({name: 'detail', params: {id: id}})
+                this.$router.push({name: ROUTE.note, params: {id: id}})
             },
 
             onHistory(index) {
@@ -95,6 +105,7 @@
 
             onSave(){
                 this[ACTION.updateNote](this.note)
+                console.log('saved')//debug
             },
 
             onDelete(){
@@ -112,17 +123,20 @@
                 }
             },
 
+            onMenu(){},
+
             onDebug(){
                 swal({
                     title: 'Initialize?',
-                    text: 'This button is for developer.\n\ncommand: shift + enter',
+                    text: 'This button is for developer.\n\ncommand: ctrl + enter',
                     type: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'OK'
                 }).then(() => {
                     window.localStorage.clear()
                     closeEventFlag = false
-                    location.reload()
+                    this.history = []
+                    location.href = '/'
                 }).catch(() => {
                 })
             },

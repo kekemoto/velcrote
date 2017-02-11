@@ -1,27 +1,28 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Detail from './component/Detail.vue'
+import Detail from './component/Note.vue'
 import Overview from './component/Overview.vue'
+import {ROUTE} from './common'
 
 Vue.use(VueRouter)
 
 export default new VueRouter({
     routes: [
         {
-            path: '/detail',
-            name: 'detailDefault',
+            path: `/${ROUTE.note}/:id?`,
+            name: ROUTE.note,
             component: Detail,
             alias: ['/']
         },
         {
-            path: '/detail/:id',
-            name: 'detail',
-            component: Detail,
-        },
-        {
-            path: '/overview',
-            name: 'overview',
+            path: `/${ROUTE.overview}`,
+            name: ROUTE.overview,
             component: Overview
         },
+        {
+            // old url. Do not define name.
+            path: '/detail',
+            redirect: '/',
+        }
     ],
 })

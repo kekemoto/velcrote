@@ -1,6 +1,6 @@
 <template>
     <li>
-        <router-link :to="{name:'detail', params:{id: note.id}}" :class="{empty:isEmpty(note.title)}">{{ titleChecker(note.title) }}</router-link>
+        <router-link :to="{name:ROUTE.note, params:{id: note.id}}" :class="{empty:isEmpty(note.title)}">{{ titleChecker(note.title) }}</router-link>
         <ul>
             <node v-for="id in note.links" :note="velcrote[id]"></node>
         </ul>
@@ -10,9 +10,12 @@
 <script>
     import Helper from './Helper'
     import {mapState} from 'vuex'
+    import {ROUTE} from '../common'
 
     export default {
         name: 'Node',
+
+        data: ()=>({ROUTE}),
 
         props: ['note'],
 
