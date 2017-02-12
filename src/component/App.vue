@@ -2,7 +2,7 @@
     <div>
         <header class="section">
             <router-link to="/" class="title-logo">Velcrote</router-link>
-            <router-link :to="{name:ROUTE.note}" class="link">Detail</router-link>
+            <router-link :to="{name:ROUTE.note}" class="link">Note</router-link>
             <router-link :to="{name:ROUTE.overview}">Overview</router-link>
         </header>
         <section class="section">

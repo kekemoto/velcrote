@@ -13,7 +13,8 @@
 
         <section class="section">
             <input type="text" placeholder="title" v-model="note.title" class="editor" @keyup.enter.ctrl="onDebug">
-            <textarea placeholder="detail" class="editor editor-detail" v-model="note.detail"></textarea>
+            <textarea id="editor-detail" placeholder="detail" class="editor editor-detail"
+                      v-model="note.detail"></textarea>
             <ul>
                 <li v-for="link in note.links" @click="onLink(link)" :class="{empty:isEmpty(velcrote[link].title)}">{{
                     titleChecker(velcrote[link].title, 'empty title') }}
@@ -25,6 +26,7 @@
 </template>
 
 <script>
+    import Vue from 'vue'
     import Helper from './Helper'
     import {mapActions, mapState} from 'vuex'
     import {
@@ -58,10 +60,17 @@
             this[ACTION.initialize]()
             this._initializeNote()
             window.onbeforeunload = () => {
-                if(closeEventFlag) {
+                console.log('beforeunload')//debug
+                if (closeEventFlag) {
                     this.onSave()
                 }
             }
+        },
+
+        mounted(){
+            // textarea resize
+            document.getElementById("editor-detail")
+                .addEventListener("input", event => resizeElement(event.target), false)
         },
 
         beforeRouteLeave(to, from, next) {
@@ -73,14 +82,20 @@
         watch: {
             '$route'(){
                 console.log('route change')//debug
-                if(this.note.id){
+                if (this.note.id) {
                     this.onSave()
                 }
                 if (!this.$route.params.id) {
                     this.history = []
                 }
                 this._initializeNote()
-            }
+            },
+
+            note(){
+                Vue.nextTick(() => {
+                    resizeElement(document.getElementById("editor-detail"))
+                })
+            },
         },
 
         methods: {
@@ -123,7 +138,9 @@
                 }
             },
 
-            onMenu(){},
+            onMenu(){
+                swal('Coming soon...')
+            },
 
             onDebug(){
                 swal({
@@ -153,6 +170,13 @@
             ])
         },
     }
+
+    function resizeElement(element) {
+        if (element.scrollHeight != element.offsetHeight) {
+            element.style.height = 'auto'
+            element.style.height = element.scrollHeight + "px"
+        }
+    }
 </script>
 
 <style scoped>
@@ -161,7 +185,6 @@
     }
 
     .editor-detail {
-        height: 10em;
         line-height: 1.5;
     }
 
